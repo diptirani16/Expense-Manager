@@ -1,0 +1,13 @@
+.row {
+    background-color: #d7d3d3;
+    display: flex;
+    justify-content: space-between;
+    width: 96vw;
+    padding: 1%;
+    margin: 0.5%;
+}
+.amountStyle {
+    width: 8vw;
+    text-align: center;
+    color: white
+}
