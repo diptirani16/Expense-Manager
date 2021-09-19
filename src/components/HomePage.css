@@ -1,10 +1,10 @@
 .row {
-    background-color: #d7d3d3;
+    background-color: #f0eded;;
     display: flex;
     justify-content: space-between;
-    width: 96vw;
+    /* width: 97vw; */
     padding: 1%;
-    margin: 0.5%;
+    margin: 0.2%;
 }
 .amountStyle {
     width: 8vw;

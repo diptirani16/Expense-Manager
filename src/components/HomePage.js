@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
 import Header from './Header';
-import './HomePage.css'
+import Add from './Add';
+import DeleteData from './Delete';
+import EditData from './Edit'
+import './HomePage.css';
+import { Chip, Divider, Fab, Tooltip, Typography, Container } from '@mui/material';
+import { Edit } from '@mui/icons-material';
 
 class HomePage extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            result: []
+            result: [],
+            open: false
         }
+        this.updateState = this.updateState.bind(this);
     }
 
-    componentDidMount () {
+    componentDidMount() {
         let token = localStorage.getItem('token');
         console.log(token);
 
@@ -21,39 +28,49 @@ class HomePage extends Component {
                 'Authorization': 'Bearer ' + token
             }
         })
-        .then((res) => res.json())
-        .then((data) => {
-            this.setState({
-                result: data.result
+            .then((res) => res.json())
+            .then((data) => {
+                this.setState({
+                    result: data.result
+                })
             })
-            console.log(data)
+    }
+
+    updateState (newData) {
+        this.setState({
+            result: newData
         })
     }
 
-    render () {
+
+    render() {
         return (
             <div>
                 <Header />
-                {this.state.result.map(i => 
-                    <div className="row" key={i._id}>
-                        <div style={{ display: 'flex', justifyContent: 'space-around'}}>
-                            <div style={{ width: '6vw', marginLeft: '2vw', display: 'flex', alignSelf: 'center'}}>{i.updatedAt}</div>
-                            <div style={{ width: '0.3vw', backgroundColor: 'white'}}></div>
-                            <div style={{ marginLeft: '3vw'}}>
-                                { i.type === 'Expense' ? 
-                                <p style= {{backgroundColor: 'green'}} className="amountStyle"><i className="fa fa-inr" style={{ marginRight: '0.5em'}} aria-hidden="true"></i>{i.amount}</p> : 
-                                <p style={{backgroundColor: 'red'}} className="amountStyle"><i className="fa fa-inr" style={{ marginRight: '0.5em'}} aria-hidden="true"></i>{i.amount}</p> }
-                                <p>{i.category}</p>
+                {this.state.result.map(i =>
+                    <Container maxWidth="800px">
+                        <div className="row" key={i._id}>
+                            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                                <div style={{ width: '6vw', marginLeft: '2vw', display: 'flex', alignSelf: 'center' }}>{new Date(i.date).getDate()}</div>
+                                <Divider orientation="vertical" color="success" flexItem />
+                                <div style={{ marginLeft: '3vw' }}>
+                                    {i.type === 'Expense' ?
+                                        <Chip label={i.amount} color="error" /> :
+                                        <Chip label={i.amount} color="success" />}
+                                    <Typography variant="subtitle1" style={{ marginTop: '2vh' }} gutterBottom component="div">{i.category}</Typography>
+                                    <Typography variant="body2" gutterBottom>{i.note}</Typography>
+                                </div>
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'row', fontSize: '1.5em', alignSelf: 'center' }}>
+                                <EditData />
+                                <DeleteData result={this.state.result} id={i._id} updateState={this.updateState} />    
                             </div>
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'row', fontSize: '1.5em', alignSelf: 'center'}}>
-                            <i className="fa fa-pencil" aria-hidden="true"></i>
-                            <i className="fa fa-trash" style={{ marginLeft: '1em'}} aria-hidden="true"></i>
-                        </div>
-                    </div>
+                    </Container>
                 )}
-                
-                
+
+                <Add result={this.state.result} updateState={this.updateState}/>
+
             </div>
         )
     }
