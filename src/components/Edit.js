@@ -76,7 +76,6 @@ class EditData extends Component {
 
         const { type, category, amount, note } = this.state;
         console.log(note)
-        let currentdate = new Date().toISOString();        
         
         fetch(`https://expense.spacenditure.com/api/expense/${id}`, {
             method: 'PUT',
@@ -89,7 +88,7 @@ class EditData extends Component {
                 'category': category,
                 'amount': amount,
                 'note': note,
-                'date': currentdate
+                'date': this.state.date
             })
             
         })
