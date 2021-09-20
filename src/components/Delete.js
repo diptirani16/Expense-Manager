@@ -67,10 +67,10 @@ class DeleteData extends Component {
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handleClose}>Disagree</Button>
-                        <Button onClick={() => this.handleDelete(this.props.id)} autoFocus>
-                            Agree
+                        <Button onClick={() => this.handleDelete(this.props.id)} variant="contained" color="error" size="small">
+                            DELETE
                         </Button>
+                        <Button onClick={this.handleClose} color="inherit">CANCEL</Button>
                     </DialogActions>
                 </Dialog>
             </>

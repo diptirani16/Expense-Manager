@@ -1,22 +1,46 @@
 import React, { Component } from 'react';
-import { Dialog, DialogTitle, DialogContentText, DialogContent, DialogActions, Button, Tooltip, Fab } from '@mui/material';
+import { Fab, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Tooltip } from '@mui/material';
+import { FormControl, Box, MenuItem, InputLabel, Select } from '@mui/material';
 import { Edit } from '@mui/icons-material';
 
 class EditData extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            open: false
+            open: false,
+            result: [],
+            id: '',
+            type: '',
+            category: '',
+            note: '',
+            amount: 0
         }
 
         this.handleOpenEditDialog = this.handleOpenEditDialog.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.saveData = this.saveData.bind(this);
+        this.handleType = this.handleType.bind(this);
+        this.handleCategory = this.handleCategory.bind(this);
+        this.handleAmount = this.handleAmount.bind(this);
+        this.handleNote = this.handleNote.bind(this);
     }
 
-    handleOpenEditDialog() {
+    handleOpenEditDialog(id) {
         this.setState({
             open: true
         })
+        this.props.result.map(obj => {
+            if(obj._id === id){
+                this.setState({
+                    'type': obj.type,
+                    'category': obj.category,
+                    'amount': obj.amount,
+                    'note': obj.note,
+                    'date': obj.date
+                })
+            }
+        })
+        
     }
     handleClose () {
         this.setState({
@@ -24,29 +48,114 @@ class EditData extends Component {
         })
     }
 
+    handleType (event) {
+        this.setState({
+            type: event.target.value
+        })
+    }
+
+    handleCategory (event) {
+        this.setState({
+            category: event.target.value
+        })
+    }
+    handleAmount (event) {
+        this.setState({
+            amount: Number(event.target.value)
+        })
+    }
+    handleNote (event) {
+        this.setState({
+            note: event.target.value
+        })
+    }
+
+
+    saveData (id) {
+        let token = localStorage.getItem('token');
+
+        const { type, category, amount, note } = this.state;
+        console.log(note)
+        let currentdate = new Date().toISOString();        
+        
+        fetch(`https://expense.spacenditure.com/api/expense/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({
+                'type': type,
+                'category': category,
+                'amount': amount,
+                'note': note,
+                'date': currentdate
+            })
+            
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data)
+            this.setState({
+                open: false
+            })
+            this.props.result.map(obj => {
+                if(obj._id === id){
+                    let indexOfOldData = this.props.result.indexOf(obj);
+                    let temp = this.props.result;
+                    obj = data;
+                    temp.splice(indexOfOldData, 1, obj)
+                    this.props.updateState(temp)
+                }
+            })
+
+        })
+
+    }
+
     render() {
         return (
             <>
                 <Tooltip title="Edit" placement="top">
-                    <Fab color="primary" size="small" aria-label="Edit" onClick={this.handleOpenEditDialog}>
+                    <Fab style={{ marginLeft: '1em' }} size="small" aria-label="Edit" onClick={() => this.handleOpenEditDialog(this.props.id)} color="primary">
                         <Edit />
                     </Fab>
                 </Tooltip>
-                <Dialog open={this.state.open} onClose={this.handleClose} >
-                    <DialogTitle>
-                        Do you really want to Edit this record?
-                    </DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            This actions can't be undone.
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.handleClose}>Disagree</Button>
-                        <Button onClick={this.handleClose} autoFocus>
-                            Agree
-                        </Button>
-                    </DialogActions>
+                <Dialog open={this.state.open} onClose={this.handleClose}>
+                    <DialogTitle>Edit</DialogTitle>
+                <DialogContent>
+                <TextField sx={{ my: 1}} id="datetime" type="date" fullWidth size="small" />
+                <Box sx={{ my: 1, minWidth: 120 }}>
+                    <FormControl size="small" fullWidth>
+                        <InputLabel id="demo-simple-select-label">Type</InputLabel>
+                        <Select labelId="demo-simple-select-label" id="demo-simple-select" value={this.state.type} label="Type" onChange={this.handleType} >
+                            <MenuItem value="Expense">Expense</MenuItem>
+                            <MenuItem value="Income">Income</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
+                <Box sx={{ my: 2, minWidth: 120 }}>
+                    <FormControl size="small" fullWidth>
+                        <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                        <Select labelId="demo-simple-select-label" id="demo-simple-select" value={this.state.category} label="Category" onChange={this.handleCategory} >
+                            <MenuItem value="Education">Education</MenuItem>
+                            <MenuItem value="Housing & Household Supplies">Housing & Household Supplies</MenuItem>
+                            <MenuItem value="Food">Food</MenuItem>
+                            <MenuItem value="Rent & Loyality">Rent & Loyality</MenuItem>
+                            <MenuItem value="Transportation">Transportation</MenuItem>
+                            <MenuItem value="Recreation & Entertainment">Recreation & Entertainment</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
+                <Box>
+                    <TextField margin="dense" id="name" label="Amount" type="text" fullWidth variant="standard" size="small" onChange={this.handleAmount} value={this.state.amount}/>
+                    <TextField sx={{ my: 1}} id="standard-textarea" label="Note" fullWidth placeholder="Placeholder" multiline variant="standard" onChange={this.handleNote} value={this.state.note} />
+                </Box>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => this.saveData(this.props.id)} variant="contained" size="small">SAVE CHANGES</Button>
+                    <Button onClick={this.handleClose} color="inherit">CANCEL</Button>
+                </DialogActions>
                 </Dialog>
             </>
         )

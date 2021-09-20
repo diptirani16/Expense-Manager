@@ -87,8 +87,12 @@ class Add extends Component {
             this.setState({
                 open: false,
             })
-            this.props.updateState([data, ...this.props.result])
+            if(data.amount) {
+                this.props.updateState([data, ...this.props.result])
+
+            }
         })
+        
 
 
 
@@ -103,6 +107,7 @@ class Add extends Component {
                 <Dialog open={this.state.open} onClose={this.handleClose}>
                     <DialogTitle>Add</DialogTitle>
                 <DialogContent>
+                <TextField sx={{ my: 1}} id="datetime" type="date" fullWidth size="small" />
                 <Box sx={{ my: 1, minWidth: 120 }}>
                     <FormControl size="small" fullWidth>
                         <InputLabel id="demo-simple-select-label">Type</InputLabel>
@@ -131,8 +136,8 @@ class Add extends Component {
                 </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={this.handleClose}>CANCEL</Button>
-                    <Button onClick={this.addData}>ADD</Button>
+                    <Button onClick={this.addData} variant="contained" size="small">ADD</Button>
+                    <Button onClick={this.handleClose} color="inherit">CANCEL</Button>
                 </DialogActions>
                 </Dialog>
             </>
