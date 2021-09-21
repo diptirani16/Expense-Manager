@@ -49,7 +49,7 @@ class Add extends Component {
     }
     handleAmount (event) {
         this.setState({
-            amount: Number(event.target.value)
+            amount: event.target.value
         })
     }
     handleNote (event) {
@@ -87,7 +87,7 @@ class Add extends Component {
             this.setState({
                 open: false,
             })
-            if(data.amount) {
+            if(typeof(data.amount) === 'number') {
                 this.props.updateState([data, ...this.props.result])
 
             }
@@ -101,7 +101,7 @@ class Add extends Component {
     render() {
         return (
             <>
-                <Fab color="secondary" aria-label="Add" style={{ position: 'fixed', left: '80%' , top: '80%'}} onClick={this.handleClickOpen}>
+                <Fab size="small" color="secondary" aria-label="Add" style={{ position: 'fixed', right: '7%' , top: '2%'}} onClick={this.handleClickOpen}>
                     <AddIcon />
                 </Fab>
                 <Dialog open={this.state.open} onClose={this.handleClose}>
@@ -131,7 +131,7 @@ class Add extends Component {
                     </FormControl>
                 </Box>
                 <Box>
-                    <TextField margin="dense" id="name" label="Amount" type="text" fullWidth variant="standard" size="small" onChange={this.handleAmount} value={this.state.amount}/>
+                    <TextField margin="dense" id="name" label="Amount" type="number" fullWidth variant="standard" size="small" onChange={this.handleAmount} value={this.state.amount}/>
                     <TextField sx={{ my: 1}} id="standard-textarea" label="Note" fullWidth placeholder="Placeholder" multiline variant="standard" onChange={this.handleNote} value={this.state.note} />
                 </Box>
                 </DialogContent>

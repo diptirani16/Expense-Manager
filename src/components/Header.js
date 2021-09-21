@@ -1,23 +1,71 @@
 import React, { Component } from 'react';
-import { Button } from '@mui/material';
+import { Menu, MenuItem, Toolbar, AppBar, Typography, Box, IconButton, Dialog, List, ListItemButton, ListItemText, ListItemIcon } from '@mui/material';
+import { Home, BarChart, Logout } from '@mui/icons-material'
+import MenuIcon from '@mui/icons-material/Menu'
 
-const headerContainer = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    backgroundColor: 'black',
-    color: 'white',
-    padding: '0.5% 1%'
-}
 
 class Header extends Component {
-    render () {
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectedIndex: 1,
+            anchorEl: null
+        }
+
+        this.handleProfileMenuOpen = this.handleProfileMenuOpen.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+    }
+
+    handleProfileMenuOpen(event) {
+        this.setState({
+            anchorEl: event.currentTarget
+
+        })
+    }
+
+    handleClose() {
+        this.setState({
+            anchorEl: null
+        })
+    }
+
+    render() {
         return (
-            <div style={headerContainer}>
-                <p>Expense Manager</p>
-                <div>
-                <Button style={{ border: '1px solid white', color: 'white' }}>Logout</Button>
-                </div>
-            </div>
+            <Box sx={{ flexGrow: 1 }}>
+                <AppBar position="static">
+                    <Toolbar>
+                        <Typography variant="h6" noWrap component="div" sx={{ display: { xs: 'none', sm: 'block' } }} >
+                            Expense Manager
+                        </Typography>
+                        <Box sx={{ flexGrow: 1 }} />
+                        <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                            <IconButton size="large" edge="end" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={this.handleProfileMenuOpen} color="inherit" >
+                                <MenuIcon />
+                            </IconButton>
+                            <Menu id="menu-appbar" anchorEl={this.state.anchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'right', }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right', }} open={Boolean(this.state.anchorEl)} onClose={this.handleClose} >
+                                <MenuItem onClick={this.handleClose}>
+                                    <ListItemIcon>
+                                        <Home fontsize="small" />
+                                    </ListItemIcon>
+                                    <ListItemText>Home</ListItemText>
+                                </MenuItem>
+                                <MenuItem onClick={this.handleClose}>
+                                    <ListItemIcon>
+                                        <BarChart fontsize="small" />
+                                    </ListItemIcon>
+                                    <ListItemText>Stats</ListItemText>
+                                </MenuItem>
+                                <MenuItem onClick={this.handleClose}>
+                                    <ListItemIcon>
+                                        <Logout fontsize="small" />
+                                    </ListItemIcon>
+                                    <ListItemText>Logout</ListItemText>
+                                </MenuItem>
+                            </Menu>
+                        </Box>
+                    </Toolbar>
+                </AppBar>
+            </Box>
         )
 
     }

@@ -61,7 +61,7 @@ class EditData extends Component {
     }
     handleAmount (event) {
         this.setState({
-            amount: Number(event.target.value)
+            amount: event.target.value
         })
     }
     handleNote (event) {
@@ -104,10 +104,9 @@ class EditData extends Component {
                     let temp = this.props.result;
                     obj = data;
                     temp.splice(indexOfOldData, 1, obj)
-                    this.props.updateState(temp)
-                }
-            })
-
+                        this.props.updateState(temp)
+                    }
+                })
         })
 
     }
@@ -147,7 +146,7 @@ class EditData extends Component {
                     </FormControl>
                 </Box>
                 <Box>
-                    <TextField margin="dense" id="name" label="Amount" type="text" fullWidth variant="standard" size="small" onChange={this.handleAmount} value={this.state.amount}/>
+                    <TextField margin="dense" id="name" label="Amount" type="number" fullWidth variant="standard" size="small" onChange={this.handleAmount} value={this.state.amount}/>
                     <TextField sx={{ my: 1}} id="standard-textarea" label="Note" fullWidth placeholder="Placeholder" multiline variant="standard" onChange={this.handleNote} value={this.state.note} />
                 </Box>
                 </DialogContent>

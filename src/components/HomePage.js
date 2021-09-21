@@ -121,7 +121,7 @@ class HomePage extends Component {
 
                 <Add result={this.state.result} updateState={this.updateState} />
                 <Stack spacing={2} position="fixed" bottom="2vh" left="35vw">
-                    <Pagination count={this.state.total} page={this.state.page} variant="outlined" color="primary" onChange={(_, page) => this.handlePage(page)} />
+                    <Pagination count={Math.ceil(this.state.total / 10)} page={this.state.page} variant="outlined" color="primary" onChange={(_, page) => this.handlePage(page)} />
                 </Stack>
 
             </div>
