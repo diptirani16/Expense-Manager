@@ -88,7 +88,7 @@ class HomePage extends Component {
             <div>
                 <Header />
                 {this.state.result.map(i =>
-                    <Container maxWidth="800px">
+                    <Container maxWidth="800px" >
                         <div className="row" key={i._id}>
                             <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                                 {i.type === 'Expense' ? 

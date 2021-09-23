@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Menu, MenuItem, Toolbar, AppBar, Typography, Box, IconButton, Dialog, List, ListItemButton, ListItemText, ListItemIcon } from '@mui/material';
 import { Home, BarChart, Logout } from '@mui/icons-material'
-import MenuIcon from '@mui/icons-material/Menu'
+import MenuIcon from '@mui/icons-material/Menu';
 
 
 class Header extends Component {
@@ -32,7 +32,7 @@ class Header extends Component {
     render() {
         return (
             <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="static">
+                <AppBar sx={{ position: "fixed" }}>
                     <Toolbar>
                         <Typography variant="h6" noWrap component="div" sx={{ display: { xs: 'none', sm: 'block' } }} >
                             Expense Manager

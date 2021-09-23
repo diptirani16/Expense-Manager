@@ -87,21 +87,18 @@ class Add extends Component {
             this.setState({
                 open: false,
             })
-            if(typeof(data.amount) === 'number') {
+            if(data.amount) {
                 this.props.updateState([data, ...this.props.result])
 
             }
         })
-        
-
-
-
+       
     }
 
     render() {
         return (
             <>
-                <Fab size="small" color="secondary" aria-label="Add" style={{ position: 'fixed', right: '7%' , top: '2%'}} onClick={this.handleClickOpen}>
+                <Fab color="secondary" aria-label="Add" style={{ position: 'fixed', right: '15%' , bottom: '15%'}} onClick={this.handleClickOpen}>
                     <AddIcon />
                 </Fab>
                 <Dialog open={this.state.open} onClose={this.handleClose}>
