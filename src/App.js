@@ -1,7 +1,10 @@
 import './App.css';
 import LoginPage from './components/LoginPage';
 import HomePage from './components/HomePage';
-
+import LineChart from './components/graphs/LineChart';
+import PieChart from './components/graphs/PieChart';
+import BarChart from './components/graphs/BarChart';
+import Stats from './components/Stats';
 import {
   BrowserRouter as Router,
   Switch,
@@ -18,6 +21,18 @@ function App() {
           </Route>
           <Route exact path='/home'>
             <HomePage />
+          </Route>
+          <Route exact path='/stats'>
+            <Stats />
+          </Route>
+          <Route exact path='/stats/linechart'>
+            <LineChart />
+          </Route>
+          <Route exact path='/stats/piechart'>
+            <PieChart />
+          </Route>
+          <Route exact path='/stats/barchart'>
+            <BarChart />
           </Route>
         </Switch>
       </Router>
