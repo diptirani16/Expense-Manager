@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Tab, Box } from '@mui/material/';
-import Typography from '@mui/material/Typography';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import LineChart from './graphs/LineChart';
 import PieGraph from './graphs/PieChart';

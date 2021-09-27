@@ -12,7 +12,6 @@ class Add extends Component {
             category: '',
             note: '',
             amount: 0,
-            date: ''
         }
 
         this.handleClickOpen = this.handleClickOpen.bind(this);
@@ -62,7 +61,7 @@ class Add extends Component {
         let token = localStorage.getItem('token')
         console.log(token);
 
-        const { type, category, amount, note, date } = this.state;
+        const { type, category, amount, note } = this.state;
         let currentdate = new Date().toISOString();        
 
         console.log(currentdate)

@@ -39,6 +39,7 @@ class EditData extends Component {
                     'date': obj.date
                 })
             }
+            return 0;
         })
         
     }
@@ -106,6 +107,7 @@ class EditData extends Component {
                     temp.splice(indexOfOldData, 1, obj)
                         this.props.updateState(temp)
                     }
+                    return 0;
                 })
         })
 

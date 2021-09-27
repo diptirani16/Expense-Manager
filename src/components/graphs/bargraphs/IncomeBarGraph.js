@@ -29,7 +29,8 @@ class IncomeBarGraph extends Component {
 			})
 
 			this.state.income.map(i => {
-				i.x = new Date((i.x).split('/').reverse().join(', '))
+				i.x = new Date((i.x).split('/').reverse().join(', '));
+				return 0;
 			}).sort((a,b) => (a.x > b.x) ? 1 : ((b.x > a.x) ? -1 : 0))
 
 			this.setState({

@@ -41,10 +41,12 @@ class PieChart extends Component {
 					})),
 				})
 				this.state.newObj.map(i => {
-					sum = i.y + sum 
+					sum = i.y + sum;
+					return 0; 
 				   })
 				this.state.newObj.map(i => {
-					i.y = ((i.y * 100) / sum).toFixed(2)
+					i.y = ((i.y * 100) / sum).toFixed(2);
+					return 0;
 				})
 				this.setState({
 					resultData: this.state.newObj
