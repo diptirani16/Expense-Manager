@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Menu, MenuItem, Toolbar, AppBar, Typography, Box, IconButton, ListItemText, ListItemIcon } from '@mui/material';
 import { Home, BarChart, Logout } from '@mui/icons-material'
 import MenuIcon from '@mui/icons-material/Menu';
+import auth from './Auth';
+import { withRouter } from 'react-router-dom';
 
 
 class Header extends Component {
@@ -13,7 +15,9 @@ class Header extends Component {
         }
 
         this.handleProfileMenuOpen = this.handleProfileMenuOpen.bind(this);
-        this.handleClose = this.handleClose.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
+        this.handleHome = this.handleHome.bind(this);
+        this.handleStats = this.handleStats.bind(this);
     }
 
     handleProfileMenuOpen(event) {
@@ -23,7 +27,32 @@ class Header extends Component {
         })
     }
 
-    handleClose() {
+    handleLogout() {
+        auth.logout(() => {
+            localStorage.removeItem('token')
+            this.props.history.push('/');
+        })
+
+        this.setState({
+            anchorEl: null
+        })
+    }
+
+    handleHome() {
+        auth.login(() => {
+            this.props.history.push('/home');
+        })
+
+        this.setState({
+            anchorEl: null
+        })
+    }
+
+    handleStats() {
+        auth.login(() => {
+            this.props.history.push('/stats');
+        })
+
         this.setState({
             anchorEl: null
         })
@@ -43,19 +72,19 @@ class Header extends Component {
                                 <MenuIcon />
                             </IconButton>
                             <Menu id="menu-appbar" anchorEl={this.state.anchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'right', }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right', }} open={Boolean(this.state.anchorEl)} onClose={this.handleClose} >
-                                <MenuItem onClick={this.handleClose}>
+                                <MenuItem onClick={this.handleHome}>
                                     <ListItemIcon>
                                         <Home fontsize="small" />
                                     </ListItemIcon>
                                     <ListItemText>Home</ListItemText>
                                 </MenuItem>
-                                <MenuItem onClick={this.handleClose}>
+                                <MenuItem onClick={this.handleStats}>
                                     <ListItemIcon>
                                         <BarChart fontsize="small" />
                                     </ListItemIcon>
                                     <ListItemText>Stats</ListItemText>
                                 </MenuItem>
-                                <MenuItem onClick={this.handleClose}>
+                                <MenuItem onClick={this.handleLogout}>
                                     <ListItemIcon>
                                         <Logout fontsize="small" />
                                     </ListItemIcon>
@@ -71,4 +100,4 @@ class Header extends Component {
     }
 }
 
-export default Header;
+export default withRouter(Header);

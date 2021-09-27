@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import auth from './Auth';
+
+import { withRouter } from 'react-router-dom'
 
 const containerStyle = {
     width: '20%',
@@ -51,8 +54,14 @@ class LoginPage extends Component {
         })
         .then((res) => res.json())
         .then((data) => {
-            localStorage.setItem('token', data.access_token)
-            console.log(data);
+            if(data.access_token) {
+                localStorage.setItem('token', data.access_token);
+                auth.login(() => {
+                    this.props.history.push('/home');
+                })
+                
+                console.log('token', data);
+            } else throw new Error(data.detail)
         })
     }
     
@@ -72,4 +81,4 @@ class LoginPage extends Component {
     }
 }
 
-export default LoginPage;
+export default withRouter(LoginPage);

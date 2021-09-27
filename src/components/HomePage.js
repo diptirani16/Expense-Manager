@@ -87,8 +87,8 @@ class HomePage extends Component {
         return (
             <div>
                 <Header />
-                {this.state.result.map(i =>
-                    <Container maxWidth="800px" >
+                    <Container maxWidth="800px" style={{ paddingTop: '65px' }}>
+                    {this.state.result.map(i =>
                         <div className="row" key={i._id}>
                             <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                                 {i.type === 'Expense' ? 
@@ -116,8 +116,8 @@ class HomePage extends Component {
                                 <DeleteData result={this.state.result} id={i._id} updateState={this.updateState} />
                             </div>
                         </div>
-                    </Container>
                 )}
+                </Container>
 
                 <Add result={this.state.result} updateState={this.updateState} />
                 <Stack spacing={2} position="fixed" bottom="2vh" left="35vw">
