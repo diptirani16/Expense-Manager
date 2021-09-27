@@ -2,6 +2,43 @@ import React, { Component } from 'react';
 import { CanvasJSChart } from 'canvasjs-react-charts';
 
 class IncomeBarGraph extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			income: [],
+			newIncomeArr: []
+		}
+	}
+
+	componentDidMount() {
+		let token = localStorage.getItem('token');
+
+		fetch('https://expense.spacenditure.com/api/stats/perMonthExpenses', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + token
+			}
+		})
+		.then((res) => res.json())
+		.then((data) => {
+			const incomeArr = data.map(({ expense, time: x, income: y, ...rest}) => ({x, y, ...rest}));
+			
+			this.setState({
+				income: incomeArr,
+			})
+
+			this.state.income.map(i => {
+				i.x = new Date((i.x).split('/').reverse().join(', '))
+			}).sort((a,b) => (a.x > b.x) ? 1 : ((b.x > a.x) ? -1 : 0))
+
+			this.setState({
+				newIncomeArr: this.state.income
+			})
+			console.log(this.state.newIncomeArr)
+		})
+	}
+
 	render() {
 		const options = {
             exportEnabled: true,
@@ -12,15 +49,7 @@ class IncomeBarGraph extends Component {
 			data: [
 			{
 				type: "column",
-				dataPoints: [
-					{ x: new Date(2017, 0, 1), y: 19034.5 },
-					{ x: new Date(2017, 1, 1), y: 20015 },
-					{ x: new Date(2017, 2, 1), y: 27342 },
-					{ x: new Date(2017, 3, 1), y: 20088 },
-					{ x: new Date(2017, 4, 1), y: 20234 },
-					{ x: new Date(2017, 5, 1), y: 29034 },
-					{ x: new Date(2017, 6, 1), y: 30487 },
-				]
+				dataPoints: this.state.newIncomeArr
 			}
 			]
 		}

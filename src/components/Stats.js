@@ -26,28 +26,6 @@ class Stats extends React.Component {
         console.log(this.state.value)
     }
 
-    componentDidMount() {
-        let token = localStorage.getItem('token');
-
-        fetch('https://expense.spacenditure.com/api/stats/categoryDistribution', {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': 'Bearer ' + token
-            }
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                data.map(i => {
-                    
-                })
-                this.setState({
-                    categoryData: data
-                })
-                console.log(this.state.categoryData)                
-            })           
-    }
-
     render() {
         return (
             <>
@@ -60,6 +38,7 @@ class Stats extends React.Component {
                             <Tab icon={<BarChart />} label="Bar Graph" value={"3"} />
                         </TabList>
                     </Box>
+                               
                     <TabPanel value={"1"}>
                         <LineChart />
                     </TabPanel>
