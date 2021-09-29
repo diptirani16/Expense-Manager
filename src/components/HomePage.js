@@ -106,7 +106,7 @@ class HomePage extends Component {
                                     {i.type === 'Expense' ?
                                         <Chip size="small" label={i.amount} icon={<MonetizationOn />} color="error" /> :
                                         <Chip size="small" label={i.amount} icon={<MonetizationOn />} color="success" />}
-                                    <Chip sx={{ mx: 2 }} size="small" icon={<AccessTime />} label={new Date(i.date).getHours() + ":" + new Date(i.date).getMinutes()} variant="outlined" />
+                                    <Chip sx={{ mx: 2 }} size="small" icon={<AccessTime />} label={new Date(i.date).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })} variant="outlined" />
                                     <Typography variant="subtitle1" style={{ marginTop: '2vh' }} gutterBottom component="div">{i.category}</Typography>
                                     <Typography variant="body2" gutterBottom>{i.note}</Typography>
                                 </div>
